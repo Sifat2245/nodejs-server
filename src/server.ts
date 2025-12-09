@@ -23,44 +23,6 @@ const server: Server = http.createServer(
         })
       );
     }
-    // if (req.url === "/" && req.method === "GET") {
-
-    // }
-
-    // if (req.url === "/api" && req.method === "GET") {
-    //   res.writeHead(200, { "content-type": "application/json" });
-    //   res.end(
-    //     JSON.stringify({
-    //       message: "hello!!! status ok",
-    //       path: req.url,
-    //     })
-    //   );
-    // }
-
-    // if (req.url === "/api/user" && req.method === "POST") {
-    //   const user = {
-    //     id: 1,
-    //     name: "alice",
-    //   };
-    //   res.writeHead(200, { "content-type": "application/json" });
-    //   res.end(JSON.stringify(user));
-
-    // let body = "";
-    // // listen for data chunk
-
-    // req.on("data", (chunk) => {
-    //   body += chunk.toString();
-    // });
-    // req.on("end", () => {
-    //   try {
-    //     const parseBody = JSON.parse(body);
-    //     console.log(parseBody);
-    //     console.log("hello");
-    //     res.end(JSON.stringify(parseBody));
-    //   } catch (err: any) {
-    //     console.log(err);
-    //   }
-    // });
   }
 );
 
