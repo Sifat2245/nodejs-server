@@ -1,20 +1,9 @@
 import http, { IncomingMessage, Server, ServerResponse } from "http";
 import config from "./config/index.ts";
-import{ routes, type RouteHandler } from "./helper/routeHandler.ts";
-import './routes/index.ts'
+import { routes, type RouteHandler } from "./helper/routeHandler.ts";
+import "./routes/index.ts";
+import findDynamicRoute from "./helper/dynamicRoute.ts";
 
-const findDynamicRoute = (method: string, url: string) =>{
-  const methodMap = routes.get(method);
-  if(!methodMap){
-    return null
-  }
-
-  for(const [routePath, handler] of methodMap.entries()){
-     const routeParts = routePath.split('/');
-     const urlParts = url.split('/');
-  //    if(routeParts.length !== urlParts.length)  
-  // }
-}
 
 const server: Server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
@@ -26,7 +15,15 @@ const server: Server = http.createServer(
     const handler: RouteHandler | undefined = methodMap?.get(path);
     if (handler) {
       handler(req, res);
-    } else {
+    } 
+    else if(findDynamicRoute(method, path)){
+      const match = findDynamicRoute(method, path);
+      match?.handler(req, res);
+
+      (req as any).params = match?.params
+    }
+    
+    else {
       res.writeHead(404, { "content-type": "application/json" });
       res.end(
         JSON.stringify({
