@@ -18,7 +18,6 @@ addRoutes("POST", "/api/users", async(req, res) =>{
 
   
   const newUser = {
-    id: users.length + 1,
     ...body
   };
 

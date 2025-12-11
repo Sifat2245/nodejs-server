@@ -3,6 +3,19 @@ import config from "./config/index.ts";
 import{ routes, type RouteHandler } from "./helper/routeHandler.ts";
 import './routes/index.ts'
 
+const findDynamicRoute = (method: string, url: string) =>{
+  const methodMap = routes.get(method);
+  if(!methodMap){
+    return null
+  }
+
+  for(const [routePath, handler] of methodMap.entries()){
+     const routeParts = routePath.split('/');
+     const urlParts = url.split('/');
+  //    if(routeParts.length !== urlParts.length)  
+  // }
+}
+
 const server: Server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
     console.log("server is initialized...");
