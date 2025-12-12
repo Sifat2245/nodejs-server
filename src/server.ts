@@ -4,7 +4,6 @@ import { routes, type RouteHandler } from "./helper/routeHandler.ts";
 import "./routes/index.ts";
 import findDynamicRoute from "./helper/dynamicRoute.ts";
 
-
 const server: Server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
     console.log("server is initialized...");
@@ -15,15 +14,11 @@ const server: Server = http.createServer(
     const handler: RouteHandler | undefined = methodMap?.get(path);
     if (handler) {
       handler(req, res);
-    } 
-    else if(findDynamicRoute(method, path)){
+    } else if (findDynamicRoute(method, path)) {
       const match = findDynamicRoute(method, path);
+      (req as any).params = match?.params;
       match?.handler(req, res);
-
-      (req as any).params = match?.params
-    }
-    
-    else {
+    } else {
       res.writeHead(404, { "content-type": "application/json" });
       res.end(
         JSON.stringify({

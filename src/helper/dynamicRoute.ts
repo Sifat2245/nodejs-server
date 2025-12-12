@@ -1,4 +1,4 @@
-import { routes } from "./routeHandler";
+import { routes } from "./routeHandler.ts";
 
 const findDynamicRoute = (method: string, url: string) => {
   const methodMap = routes.get(method);
