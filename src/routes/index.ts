@@ -10,20 +10,42 @@ addRoutes("GET", "/", (req, res) => {
   });
 });
 
-addRoutes("POST", "/api/users", async(req, res) =>{
+addRoutes("POST", "/api/users", async (req, res) => {
   const body = await parseBody(req);
 
   //reading users json
   const users = readUsers();
 
-  
   const newUser = {
-    ...body
+    ...body,
   };
 
-  users.push(newUser)
+  users.push(newUser);
+
+  writeUsers(users);
+
+  SendJson(res, 201, { data: body, success: true });
+});
+
+addRoutes("PUT", "/api/users/:id", async (req, res) => {
+  const { id } = (req as any).params;
+
+  const body = await parseBody(req);
+
+  const users = readUsers();
+
+  const index = users.findIndex((user: any) => user?.id == id);
+
+  if(index === -1 ){
+    SendJson(res, 404, {success: false, status: 404, message: "user not found"})
+  }
+
+  users[index] = {
+   ...users[index],
+   ...body
+  }
 
   writeUsers(users)
 
-  SendJson(res, 201, {data: body, success: true})
-})
+  SendJson(res, 200, {success: true, message: "user updated", data: users[index]})
+});
